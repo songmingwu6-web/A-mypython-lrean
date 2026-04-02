@@ -8,10 +8,11 @@ class AnonymousSurvey():
         """显示调查问卷"""
         print(self.question)
     def store_response(self,new_response):
-        """存储单份调查答卷"""
+        """存储单份调查答案"""
         self.responses.append(new_response)
     def show_results(self):
-        """显示收集到的所有答卷"""
-        print("Survey results:")
+        """显示收集到的所有答案"""
+        print("survey results:")
         for response in self.responses:
-                print('- ' + response)
+            print('_'+response)
+            
