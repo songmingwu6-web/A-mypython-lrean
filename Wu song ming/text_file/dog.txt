@@ -1,0 +1,3 @@
+dog1 = da huang
+dog2 = wang wang
+dog3 = wang cai

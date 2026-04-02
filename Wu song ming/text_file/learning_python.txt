@@ -1,0 +1,65 @@
+类别	元素/方法	说明	示例代码	输出/结果
+基础类型	列表	有序可变序列，元素可修改		-
+基础类型	元组	有序不可变序列，元素不可修改		-
+基础类型	字典	键值对集合，无序（Python 3.7+ 有序）		-
+基础类型	变量	存储数据的容器，无需声明类型		-
+控制流	for 循环	遍历序列或范围		01
+控制流	while 循环	当条件为真时重复执行		01
+控制流	if 条件判断	根据条件执行不同代码块		成年
+字符串方法	upper()	转为大写		"HELLO"
+字符串方法	lower()	转为小写		"hello"
+字符串方法	strip()	去除首尾空格		"abc"
+字符串方法	split()	按分隔符分割为列表（默认空格）		["a", "b", "c"]
+字符串方法	join()	用字符串拼接列表元素	"-".join(["a", "b"])	"a-b"
+字符串方法	replace()	替换子串		"hexxo"
+字符串方法	rstrip()	去除右侧空格		"abc"
+字符串方法	lstrip()	去除左侧空格		"abc"
+列表方法	append()	在末尾添加元素		[1, 2]
+列表方法	insert()	在指定索引插入元素		[1, 2, 3]
+列表方法	remove()	移除第一个匹配元素		[1, 2]
+列表方法	pop()	移除并返回指定索引元素（默认最后一个）		2（列表变为 [1]）
+列表方法	sort()	排序（默认升序）		[1, 2, 3]
+列表方法	reverse()	反转列表		[3, 2, 1]
+列表方法	count()	统计元素出现次数		2
+列表方法	index()	返回第一个匹配元素的索引		1
+内置函数	len()	返回长度		3
+内置函数	max()	返回最大值		3
+内置函数	min()	返回最小值		1
+内置函数	sum()	求和		6
+内置函数	abs()	返回绝对值		5
+内置函数	round()	四舍五入到指定小数位		3.14
+内置函数	type()	返回对象类型		<class 'str'>
+内置函数	dir()	返回对象的属性和方法列表	 （部分结果）	['append', 'count', ...]
+内置函数	help()	显示帮助信息	 （终端中显示 strip 方法说明）	-
+内置函数	print()	输出内容		hello
+内置函数	input()	获取用户输入（返回字符串）	 （假设输入 "Alice"）	name 为 "Alice"
+运算符/关键字	in	判断元素是否在序列中		True
+运算符/关键字	not in	判断元素是否不在序列中		True
+运算符/关键字	is	判断两个对象是否为同一实例		True
+运算符/关键字	is not	判断两个对象是否不为同一实例		True
+其他	函数	封装可复用代码块		3
+其他	类	面向对象编程的基础，定义对象的属性和方法		"Bob"
+其他	模块	包含函数、类等的文件，可通过 import 导入		2.0
+
+i love python.
+i love python.
+i love python.
+i also love finding meaning in large datasets.
+i love creating apps that can run in a browser.
+i also love finding meaning in large datasets.
+巫淞明
+巫淞明
+巫淞明
+巫淞明
+加油
+
+
+巫淞明
+加油
+喜欢数学
+巫淞明
+加油你可以的
+喜欢数学
+巫玉琪
+我爱你
+喜欢数学
