@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "./new_project_2026.4.6/images"
+    ]
+}
