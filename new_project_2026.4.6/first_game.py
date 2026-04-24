@@ -13,7 +13,7 @@ RED = (200, 50, 50)
 box_x = WIDTH // 2
 box_y = HEIGHT // 2
 box_size = 50
-speed = 5
+speed = 1
 
 clock = pygame.time.Clock()
 
@@ -28,11 +28,11 @@ while True:
 
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
-        man.rect.x -= 5
+        man.rect.x -= 1
     if keys[pygame.K_RIGHT]:
-        man.rect.x += 5
+        man.rect.x += 1
     if keys[pygame.K_UP]:
-        man.rect.y -= 5
+        man.rect.y -= 1
     if keys[pygame.K_DOWN]:
         man.rect.y += 5
 
