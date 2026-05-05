@@ -4,16 +4,19 @@ import pygame
 import settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
-def update_screen(ai_settings,screen,ship,bullets):
+def update_screen(ai_settings,screen,ship,alien,bullets):
     """更新屏幕上的图像，并切换到新屏幕"""
     #每次循环都会重绘屏幕
     screen.fill(ai_settings.bg_color)
     for bullet in bullets.sprites():
          bullet.draw_bullet()   # ✅ 必须是 draw_bullet
-
     ship.blitme()
     #r让最近绘制的屏幕可见
+    alien.blitme()
+
+    
     pygame.display.flip()
 def check_events(ai_settings,screen,ship,bullets):#重构check_events函数后，专门负责循环和分发事件
     """响应按键和鼠标事件"""
@@ -34,6 +37,8 @@ def check_keydown_events(event,ai_settings,screen,ship,bullets):#新函数：专
             ship.moving_left = True
         elif event.key == pygame.K_SPACE:
              fire_bullet(ai_settings,screen,ship,bullets)
+        elif event.key ==pygame.K_q:
+             sys.exit()
 def fire_bullet(ai_settings,screen,ship,bullets):
    """如果还没有达到限制,就发射一颗子弹"""
    #创建新子弹，并将其加入到编组bullets中
@@ -47,7 +52,7 @@ def check_keyup_events(event,ship):#新函数，处理按键松开
             ship.moving_right = False
         elif event.key == pygame.K_LEFT:
             ship.moving_left = False
-def update_bullets(bullets):
+def update_bullets(ai_settings,screen,bullets,alien):
     """更新子弹的位置，并删除已消失的子弹"""
     #更新子弹的位置
     bullets.update()

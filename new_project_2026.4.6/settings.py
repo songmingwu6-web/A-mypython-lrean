@@ -7,10 +7,12 @@ class Settings():
         self.screen_height =800
         self.bg_color = (230,230,230)
         #飞船设置
-        self.ship_speed_factor = 1.5
+        self.ship_speed_factor = 0.25
         #子弹设置
-        self.bullet_speed_factor = 0.25
+        self.bullet_speed_factor = 1.5
         self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = (60,60,60)
         self.bullet_allowed = 3
+         # 👇 加上这一行！
+        self.alien_speed_factor = 1  # 数值可以自己调，比如 0.5 或 1
