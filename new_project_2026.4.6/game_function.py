@@ -13,10 +13,9 @@ def update_screen(ai_settings,screen,ship,alien,bullets):
     for bullet in bullets.sprites():
          bullet.draw_bullet()   # ✅ 必须是 draw_bullet
     ship.blitme()
+    for alien in alien.sprites():
+        alien.blitme()
     #r让最近绘制的屏幕可见
-    alien.blitme()
-
-    
     pygame.display.flip()
 def check_events(ai_settings,screen,ship,bullets):#重构check_events函数后，专门负责循环和分发事件
     """响应按键和鼠标事件"""
@@ -60,4 +59,17 @@ def update_bullets(ai_settings,screen,bullets,alien):
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
+def create_fleet(ai_settings,screen,aliens):
+     """创建外星人群"""
+     #创建一个外星人，并计算一行客容纳多少个外星人
+     alien = Alien(ai_settings,screen)
+     alien_width = alien.rect.width
+     available_space_x = ai_settings.screen_width - 2*alien_width
+     number_aliens_x = int(available_space_x/alien_width)
+     #创建第一行外星人
+     for alien_number in range(number_aliens_x):
+          alien = Alien(ai_settings,screen)
+          alien.x = alien_width +2*alien_width*alien_number
+          alien.rect.x = alien.x
+          aliens.add(alien)
 

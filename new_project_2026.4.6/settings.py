@@ -16,3 +16,4 @@ class Settings():
         self.bullet_allowed = 3
          # 👇 加上这一行！
         self.alien_speed_factor = 1  # 数值可以自己调，比如 0.5 或 1
+     
