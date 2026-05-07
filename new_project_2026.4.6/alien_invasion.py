@@ -15,9 +15,9 @@ def run_game():
     ship = Ship(ai_settings,screen)
     #创建一个用于存储子弹的编组
     bullets = Group()
-    #创建一个外星人编组
+    #创建外星人群
     aliens = Group()
-    gf.create_fleet(ai_settings,screen,aliens)
+    gf.create_fleet(ai_settings,screen,ship,aliens)
    
   
     # 开始游戏的主循环
