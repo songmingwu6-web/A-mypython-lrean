@@ -20,6 +20,10 @@ class Alien(Sprite):
         # 精确位置
         self.x = float(self.rect.x)
         self.rect.center = (600, 300)
+    def update(self):
+        """向右移动外星人"""
+        self.x += self.settings.alien_speed_factor
+        self.rect.x = self.x
     def blitme(self):
         """绘制外星人"""
         self.screen.blit(self.image, self.rect)

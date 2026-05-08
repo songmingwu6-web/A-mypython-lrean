@@ -81,7 +81,7 @@ def create_alien(ai_settings,screen,aliens,alien_number,row_number):
      aliens.add(alien)
 def create_fleet(ai_settings,screen,ship,aliens):
      """创建外星人群"""
-     #创建一个外星人，并计算一行能容纳多少个外星人
+     #创建一群外星人，并计算一行能容纳多少个外星人
      alien = Alien(ai_settings,screen)
      
      number_aliens_x = get_number_aliens_x(ai_settings,alien.rect.width)
@@ -90,4 +90,7 @@ def create_fleet(ai_settings,screen,ship,aliens):
      for row_number in range(number_rows):
          for alien_number in range(number_aliens_x):
              create_alien(ai_settings,screen,aliens,alien_number,row_number)
+def update_aliens(aliens):
+    """更新外星人群中所有外星人的位置"""
+    aliens.update()             
 
