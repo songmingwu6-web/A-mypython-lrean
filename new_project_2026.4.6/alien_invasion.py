@@ -24,7 +24,7 @@ def run_game():
     while True:
         gf.check_events(ai_settings, screen, ship, bullets)
         ship.update()
-        gf.update_bullets(ai_settings, screen,  bullets)
+        gf.update_bullets(ai_settings, screen, bullets, aliens)
         #把之前的update_bullets函数放到game_function.py中，现在直接调用即可
         gf.update_aliens(ai_settings, aliens)
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)

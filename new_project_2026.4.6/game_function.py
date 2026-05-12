@@ -51,12 +51,15 @@ def check_keyup_events(event, ship):
     elif event.key == pygame.K_LEFT:
         ship.moving_left = False
 
-def update_bullets(ai_settings, screen, bullets):
+def update_bullets(ai_settings, screen, bullets, aliens):
     """更新子弹的位置，并删除已消失的子弹"""
     bullets.update()
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
+            #检查是否有子弹击中了外星人
+            #如果是这样，就删除相应的子弹和外星人
+            collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
 def get_number_aliens_x(ai_settings,screen,alien_width):
      """计算每行可容纳多少外星人"""
      avaliable_space_x = ai_settings.screen_width - 2*alien_width
