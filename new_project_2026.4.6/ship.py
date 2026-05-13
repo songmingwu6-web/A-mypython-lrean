@@ -29,6 +29,7 @@ class Ship():
         """在指定位置绘制飞船"""
         self.screen.blit(self.images,self.rect)
         
+    # ============== 新增：飞船居中方法 ==============
     def center_ship(self):
         """让飞船在屏幕上居中"""
         self.center = self.screen_rect.centerx
