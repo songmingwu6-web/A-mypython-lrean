@@ -18,34 +18,35 @@ def update_screen(ai_settings, screen, ship, aliens, bullets):
     pygame.display.flip()
 
 # ============== 修改：添加 stats 和 aliens 参数 ==============
-def check_events(ai_settings, screen, stats, ship, bullets, aliens):
+def check_events(ai_settings, screen, stats, ship, bullets, aliens, sound):
     """响应按键和鼠标事件"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
             # ============== 修改：传递所有参数 ==============
-            check_keydown_events(event, ai_settings, screen, stats, ship, bullets, aliens)
+            check_keydown_events(event, ai_settings, screen, stats, ship, bullets, aliens, sound)
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
         
 # ============== 修改：添加 stats 和 aliens 参数 ==============
-def check_keydown_events(event, ai_settings, screen, stats, ship, bullets, aliens):
+def check_keydown_events(event, ai_settings, screen, stats, ship, bullets, aliens, sound):
     """响应按键"""
     if event.key == pygame.K_RIGHT:
         ship.moving_right = True
     elif event.key == pygame.K_LEFT:
         ship.moving_left = True
     elif event.key == pygame.K_SPACE:
-        fire_bullet(ai_settings, screen, ship, bullets)
+        # ============== 修改：传递 sound 参数 ==============
+        fire_bullet(ai_settings, screen, ship, bullets, sound)
     elif event.key == pygame.K_q:
         sys.exit()
     # ============== 新增：按 P 键重新开始游戏 ==============
     elif event.key == pygame.K_p and not stats.game_active:
-        reset_game(ai_settings, screen, stats, ship, bullets, aliens)
+        reset_game(ai_settings, screen, stats, ship, bullets, aliens, sound)
 
 # ============== 新增：重新开始游戏函数 ==============
-def reset_game(ai_settings, screen, stats, ship, bullets, aliens):
+def reset_game(ai_settings, screen, stats, ship, bullets, aliens, sound):
     """重新开始游戏"""
     stats.reset_stats()
     stats.game_active = True
@@ -54,11 +55,14 @@ def reset_game(ai_settings, screen, stats, ship, bullets, aliens):
     create_fleet(ai_settings, screen, ship, aliens)
     ship.center_ship()
 
-def fire_bullet(ai_settings, screen, ship, bullets):
+def fire_bullet(ai_settings, screen, ship, bullets, sound):
     """如果还没有达到限制，就发射一颗子弹"""
     if len(bullets) < ai_settings.bullet_allowed: 
         new_bullet = Bullet(ai_settings, screen, ship)
-        bullets.add(new_bullet)        
+        bullets.add(new_bullet)
+        # ============== 新增：播放射击音效 ==============
+        if sound:
+            sound.play_shoot()        
 
 def check_keyup_events(event, ship):
     """响应按键松开"""
@@ -68,22 +72,25 @@ def check_keyup_events(event, ship):
         ship.moving_left = False
 
 # ============== 修改：更新函数签名和功能扩展 ==============
-def update_bullets(ai_settings, screen, ship, bullets, aliens, stats):
+def update_bullets(ai_settings, screen, ship, bullets, aliens, stats, sound):
     """更新子弹的位置，并删除已消失的子弹"""
     bullets.update()
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
     # ============== 新增：检查子弹与外星人碰撞 ==============
-    check_bullet_alien_collisions(ai_settings, screen, ship, bullets, aliens, stats)
+    check_bullet_alien_collisions(ai_settings, screen, ship, bullets, aliens, stats, sound)
 
 # ============== 新增：子弹与外星人碰撞检测 ==============
-def check_bullet_alien_collisions(ai_settings, screen, ship, bullets, aliens, stats):
+def check_bullet_alien_collisions(ai_settings, screen, ship, bullets, aliens, stats, sound):
     """响应子弹和外星人的碰撞"""
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
     
     if collisions:
         stats.score += 10  # ============== 新增：加分 ==============
+        # ============== 新增：播放爆炸音效 ==============
+        if sound:
+            sound.play_explosion()
     
     if len(aliens) == 0:  # ============== 新增：外星人全部消灭后创建新舰队 ==============
         bullets.empty()
@@ -132,22 +139,26 @@ def change_fleet_direction(ai_settings, aliens):
         alien.rect.y += ai_settings.fleet_drop_speed
     ai_settings.fleet_direction *= -1
 # ============== 新增：外星人更新函数 ==============
-def update_aliens(ai_settings, screen, stats, ship, aliens, bullets):
+def update_aliens(ai_settings, screen, stats, ship, aliens, bullets, sound):
     """检查是否有外星人位于屏幕边缘，并更新外星人群中所有外星人的位置"""
     check_fleet_edges(ai_settings, aliens)
     aliens.update()
     
     # ============== 新增：检测飞船与外星人碰撞 ==============
     if pygame.sprite.spritecollideany(ship, aliens):
-        ship_hit(ai_settings, screen, stats, ship, aliens, bullets)
+        ship_hit(ai_settings, screen, stats, ship, aliens, bullets, sound)
     
     # ============== 新增：检测外星人到达底部 ==============
-    check_aliens_bottom(ai_settings, screen, stats, ship, aliens, bullets)
+    check_aliens_bottom(ai_settings, screen, stats, ship, aliens, bullets, sound)
 
 # ============== 新增：飞船被撞处理函数 ==============
-def ship_hit(ai_settings, screen, stats, ship, aliens, bullets):
+def ship_hit(ai_settings, screen, stats, ship, aliens, bullets, sound):
     """响应被外星人撞到的飞船"""
     if stats.ships_left > 0:
+        # ============== 新增：播放飞船被撞音效 ==============
+        if sound:
+            sound.play_ship_hit()
+        
         stats.ships_left -= 1  # ============== 减少飞船数量 ==============
         aliens.empty()  # ============== 清空外星人 ==============
         bullets.empty()  # ============== 清空子弹 ==============
@@ -155,13 +166,16 @@ def ship_hit(ai_settings, screen, stats, ship, aliens, bullets):
         ship.center_ship()  # ============== 飞船居中 ==============
     else:
         stats.game_active = False  # ============== 游戏结束 ==============
+        # ============== 新增：播放游戏结束音效 ==============
+        if sound:
+            sound.play_game_over()
 
 # ============== 新增：外星人到达底部检测 ==============
-def check_aliens_bottom(ai_settings, screen, stats, ship, aliens, bullets):
+def check_aliens_bottom(ai_settings, screen, stats, ship, aliens, bullets, sound):
     """检查是否有外星人到达了屏幕底端"""
     screen_rect = screen.get_rect()
     for alien in aliens.sprites():
         if alien.rect.bottom >= screen_rect.bottom:
-            ship_hit(ai_settings, screen, stats, ship, aliens, bullets)
+            ship_hit(ai_settings, screen, stats, ship, aliens, bullets, sound)
             break
         
