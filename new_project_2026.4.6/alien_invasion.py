@@ -28,6 +28,6 @@ def run_game():
         #把之前的update_bullets函数放到game_function.py中，现在直接调用即可
         gf.update_aliens(ai_settings, aliens)
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)
-
+        gf.check_bullet_alien_collisions(ai_settings, screen, ship, bullets, aliens)
 
 run_game()

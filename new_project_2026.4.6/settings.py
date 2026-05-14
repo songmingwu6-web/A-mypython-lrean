@@ -9,13 +9,13 @@ class Settings():
         #飞船设置
         self.ship_speed_factor = 0.5
         #子弹设置
-        self.bullet_speed_factor = 1
+        self.bullet_speed_factor = 0.5
         self.bullet_width = 3  #测试时子弹宽度设置为300，实际游戏中设置为3
-        self.bullet_height = 50
+        self.bullet_height = 60
         self.bullet_color = (128,0,255)
         self.bullet_allowed = 3
          # 外星人设置
-        self.alien_speed_factor = 0.15 # 数值可以自己调，比如 0.5 或 1
+        self.alien_speed_factor = 0.1 # 数值可以自己调，比如 0.5 或 1
         self.fleet_drop_speed = 0.5 # 外星人向下移动的速度
         self.fleet_direction = 0.75    # 1 表示向右移动，-1 表示向左移动
 
