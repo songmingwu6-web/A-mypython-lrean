@@ -18,7 +18,7 @@ class Settings():
          # 外星人设置
         self.alien_speed_factor = 0.1 # 数值可以自己调，比如 0.5 或 1
         self.fleet_drop_speed = 50 # 外星人向下移动的速度
-        self.fleet_direction = 0.75    # 1 表示向右移动，-1 表示向左移动
+        self.fleet_direction = 1    # 1 表示向右移动，-1 表示向左移动
 
         
      
