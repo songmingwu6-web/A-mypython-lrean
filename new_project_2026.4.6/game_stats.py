@@ -1,7 +1,7 @@
 class GameStats():
     """跟踪游戏的统计信息"""
     def __init__(self,ai_settings):
-        """初始华统计信息"""
+        """初始化统计信息"""
         self.ai_settings = ai_settings
         self.reset_stats()
         #游戏启动时处于非活动状态

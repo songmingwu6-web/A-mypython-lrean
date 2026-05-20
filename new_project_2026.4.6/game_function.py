@@ -6,7 +6,7 @@ from bullet import Bullet
 from alien import Alien
 from time import sleep
 
-def update_screen(ai_settings, screen, ship, aliens, bullets):
+def update_screen(ai_settings, screen,stats, ship, aliens, bullets,play_button):
     """更新屏幕上的图像，并切换到新屏幕"""
     # 每次循环都会重绘屏幕
     screen.fill(ai_settings.bg_color)
@@ -15,11 +15,14 @@ def update_screen(ai_settings, screen, ship, aliens, bullets):
     ship.blitme()
     # ✅ 正确绘制外星人群，不要用循环，直接调用aliens.draw(screen)即可
     aliens.draw(screen)
+    #如果游戏处于非活动状态，就绘制play按钮
+    if not stats.game_active:
+        play_button.draw_button()
     # 让最近绘制的屏幕可见
     pygame.display.flip()
 
 
-def check_events(ai_settings, screen, stats, ship, aliens, bullets):
+def check_events(ai_settings, screen, stats, ship, aliens, bullets,play_button):
     """响应按键和鼠标事件"""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -30,6 +33,9 @@ def check_events(ai_settings, screen, stats, ship, aliens, bullets):
 
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            check_play_button(ai_settings, screen, stats, ship, aliens, bullets, play_button, mouse_x, mouse_y)
         
 def check_keydown_events(event, ai_settings, screen, stats, ship, aliens, bullets):
     if event.key == pygame.K_RIGHT:
@@ -41,10 +47,22 @@ def check_keydown_events(event, ai_settings, screen, stats, ship, aliens, bullet
     elif event.key == pygame.K_q:
         sys.exit()
     elif event.key == pygame.K_p and not stats.game_active:
-        # 重新开始游戏
+        # 重新开始游戏（通过按P键）
         stats.reset_stats()
         stats.game_active = True
 
+        aliens.empty()
+        bullets.empty()
+        create_fleet(ai_settings, screen, ship, aliens)
+        ship.center_ship()
+
+
+def check_play_button(ai_settings, screen, stats, ship, aliens, bullets, play_button, mouse_x, mouse_y):
+    """在玩家单击Play按钮时开始新游戏"""
+    button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
+    if button_clicked and not stats.game_active:
+        stats.reset_stats()
+        stats.game_active = True
         aliens.empty()
         bullets.empty()
         create_fleet(ai_settings, screen, ship, aliens)
