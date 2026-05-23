@@ -33,6 +33,7 @@ def check_events(ai_settings, screen, stats, ship, aliens, bullets,play_button):
 
         elif event.type == pygame.KEYUP:
             check_keyup_events(event, ship)
+        
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
             check_play_button(ai_settings, screen, stats, ship, aliens, bullets, play_button, mouse_x, mouse_y)
@@ -59,12 +60,15 @@ def check_keydown_events(event, ai_settings, screen, stats, ship, aliens, bullet
 
 def check_play_button(ai_settings, screen, stats, ship, aliens, bullets, play_button, mouse_x, mouse_y):
     """在玩家单击Play按钮时开始新游戏"""
-    button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)
-    if button_clicked and not stats.game_active:
+    button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)#把统计信息打包到button_cilled中
+    if button_clicked and not stats.game_active:#如果鼠标已经点击且游戏不运行了
+        """重置游戏统计信息"""
         stats.reset_stats()
         stats.game_active = True
+        #清空外星人列表好和子弹列表
         aliens.empty()
         bullets.empty()
+        #创建一群新的外星人，并让飞船居中
         create_fleet(ai_settings, screen, ship, aliens)
         ship.center_ship()
 
