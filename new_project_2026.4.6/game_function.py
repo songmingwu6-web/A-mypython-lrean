@@ -61,10 +61,11 @@ def check_keydown_events(event, ai_settings, screen, stats, ship, aliens, bullet
 def check_play_button(ai_settings, screen, stats, ship, aliens, bullets, play_button, mouse_x, mouse_y):
     """在玩家单击Play按钮时开始新游戏"""
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)#把统计信息打包到button_cilled中
-    if button_clicked and not stats.game_active:#如果鼠标已经点击且游戏不运行了
-        """重置游戏统计信息"""
+    if button_clicked and not stats.game_active:#将play键切换到非活动状态时play键才能被点击以防误击
+        pygame.mouse.set_visible(False)#隐藏光标
         stats.reset_stats()
         stats.game_active = True
+        """重置游戏统计信息"""
         #清空外星人列表好和子弹列表
         aliens.empty()
         bullets.empty()
@@ -173,6 +174,7 @@ def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
     else:
         # 如果玩家没有更多飞船了，就结束游戏
         stats.game_active = False
+        pygame.mouse.set_visible(True)#显示光标
 
 
 def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets):
