@@ -101,8 +101,9 @@ def check_bullet_alien_collisions(ai_settings, stats, screen, ship, bullets, ali
         #删除发生碰撞的子弹和外星人
         collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
         if len(aliens) == 0:
-            #删除现有的子弹并创建一群新的外星人
+            #删除现有的子弹，加快游戏节奏并创建一群新的外星人
             bullets.empty()
+            ai_settings.increase_speed()#提高游戏难度
             create_fleet(ai_settings, screen, ship, aliens)
 
 def get_number_aliens_x(ai_settings, screen, alien_width):
