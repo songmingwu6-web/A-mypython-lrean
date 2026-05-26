@@ -62,6 +62,7 @@ def check_play_button(ai_settings, screen, stats, ship, aliens, bullets, play_bu
     """在玩家单击Play按钮时开始新游戏"""
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)#把统计信息打包到button_cilled中
     if button_clicked and not stats.game_active:#将play键切换到非活动状态时play键才能被点击以防误击
+        ai_settings.intialize_dynamic_settings()#重置游戏设置
         pygame.mouse.set_visible(False)#隐藏光标
         stats.reset_stats()
         stats.game_active = True
