@@ -93,22 +93,24 @@ def check_keyup_events(event, ship):
         ship.moving_left = False
 
 
-def update_bullets(ai_settings, screen, ship, bullets, aliens):
+def update_bullets(ai_settings, screen,stats,sb, ship, bullets, aliens):
     """更新子弹的位置，并删除已消失的子弹"""
     bullets.update()
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
+            check_bullet_alien_collisions(ai_settings,screen,stats,sb,ship,bullets,aliens)
             
-def check_bullet_alien_collisions(ai_settings, stats, screen, ship, bullets, aliens):
+def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, bullets, aliens):
     """响应子弹和外星人的碰撞"""
     if stats.game_active:
         #删除发生碰撞的子弹和外星人
         collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
         if collisions:
             for aliens_hit in collisions.values():
-                stats.score += len(aliens_hit) * 10  # 每个外星人10分
+                stats.score += len(aliens_hit) * ai_settings.alien_points  # 每个外星人对应的分值
                 # 更新分数
+            sb.prep_score()  # 更新得分显示
         
         if len(aliens) == 0:
             # 删除现有的子弹，加快游戏节奏并创建一群新的外星人

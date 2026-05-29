@@ -26,6 +26,8 @@ class Settings():
         self.alien_speed_factor = 0.1 # 数值可以自己调，比如 0.5 或 1
         # 1 表示向右移动，-1 表示向左移动
         self.fleet_direction = 1 
+        #记分
+        self.alien_points = 50
     def increase_speed(self):
         """提高速度设置"""
         self.ship_speed_factor *= self.speedup_scale
