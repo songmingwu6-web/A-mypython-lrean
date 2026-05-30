@@ -40,7 +40,7 @@ def check_events(ai_settings, screen, stats, sb, ship, aliens, bullets,play_butt
         
         elif event.type == pygame.MOUSEBUTTONDOWN:
             mouse_x, mouse_y = pygame.mouse.get_pos()
-            check_play_button(ai_settings, screen, stats, ship, aliens, bullets, play_button, mouse_x, mouse_y)
+            check_play_button(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button, mouse_x, mouse_y)
         
 def check_keydown_events(event, ai_settings, screen, stats, sb, ship, aliens, bullets):
     if event.key == pygame.K_RIGHT:
@@ -61,8 +61,9 @@ def check_keydown_events(event, ai_settings, screen, stats, sb, ship, aliens, bu
         create_fleet(ai_settings, screen, ship, aliens)
         ship.center_ship()
         sb.prep_score()  # 更新分数显示
+        sb.prep_high_score()  # 更新最高分显示
 
-def check_play_button(ai_settings, screen, stats, ship, aliens, bullets, play_button, mouse_x, mouse_y):
+def check_play_button(ai_settings, screen, stats, sb, ship, aliens, bullets, play_button, mouse_x, mouse_y):
     """在玩家单击Play按钮时开始新游戏"""
     button_clicked = play_button.rect.collidepoint(mouse_x, mouse_y)#把统计信息打包到button_cilled中
     if button_clicked and not stats.game_active:#将play键切换到非活动状态时play键才能被点击以防误击
@@ -77,7 +78,7 @@ def check_play_button(ai_settings, screen, stats, ship, aliens, bullets, play_bu
         #创建一群新的外星人，并让飞船居中
         create_fleet(ai_settings, screen, ship, aliens)
         ship.center_ship()
-
+        sb.prep_high_score()  # 更新最高分显示
 
 def fire_bullet(ai_settings, screen, ship, bullets):
     """如果还没有达到限制，就发射一颗子弹"""
@@ -111,12 +112,18 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, bullets,
                 stats.score += len(aliens_hit) * ai_settings.alien_points  # 每个外星人对应的分值
                 # 更新分数
             sb.prep_score()  # 更新得分显示
-        
+            check_high_score(stats, sb)  # 检查最高分
+
         if len(aliens) == 0:
             # 删除现有的子弹，加快游戏节奏并创建一群新的外星人
             bullets.empty()
             ai_settings.increase_speed()  # 提高游戏难度
             create_fleet(ai_settings, screen, ship, aliens)
+def check_high_score(stats, sb):
+    """检查是否诞生了新的最高分"""
+    if stats.score > stats.high_score:
+        stats.high_score = stats.score
+        sb.prep_high_score()
 
 def get_number_aliens_x(ai_settings, screen, alien_width):
     """计算每行可容纳多少外星人"""
