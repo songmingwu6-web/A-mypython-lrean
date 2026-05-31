@@ -71,6 +71,7 @@ def check_play_button(ai_settings, screen, stats, sb, ship, aliens, bullets, pla
         pygame.mouse.set_visible(False)#隐藏光标
         stats.reset_stats()
         stats.game_active = True
+        stats.level = 1  # 重置等级
         """重置游戏统计信息"""
         #清空外星人列表好和子弹列表
         aliens.empty()
@@ -79,6 +80,7 @@ def check_play_button(ai_settings, screen, stats, sb, ship, aliens, bullets, pla
         create_fleet(ai_settings, screen, ship, aliens)
         ship.center_ship()
         sb.prep_high_score()  # 更新最高分显示
+        sb.prep_level()  # 更新等级显示
 
 def fire_bullet(ai_settings, screen, ship, bullets):
     """如果还没有达到限制，就发射一颗子弹"""
@@ -118,6 +120,9 @@ def check_bullet_alien_collisions(ai_settings, screen, stats, sb, ship, bullets,
             # 删除现有的子弹，加快游戏节奏并创建一群新的外星人
             bullets.empty()
             ai_settings.increase_speed()  # 提高游戏难度
+            #提高等级
+            stats.level += 1
+            sb.prep_level()#更新等级显示
             create_fleet(ai_settings, screen, ship, aliens)
 def check_high_score(stats, sb):
     """检查是否诞生了新的最高分"""
