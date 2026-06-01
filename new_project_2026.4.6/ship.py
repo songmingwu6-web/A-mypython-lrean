@@ -1,12 +1,14 @@
 import pygame
-class Ship():
+from pygame.sprite import Sprite
+class Ship(Sprite):#让ship继承Sprite类
     def __init__(self,ai_settings,screen):
         """初始化飞船并设置其初始位置"""
+        super(Ship, self).__init__()#调用父类的初始化方法
         self.screen = screen
         self.ai_settings = ai_settings
         #加载飞船图像并获取其外接矩形
-        self.images = pygame.image.load('images/ship.bmp')
-        self.rect = self.images.get_rect()
+        self.image = pygame.image.load('images/ship.bmp')
+        self.rect = self.image.get_rect()
         self.screen_rect = screen.get_rect()
         #将每艘新飞船放在屏幕底部中央
         self.rect.centerx = self.screen_rect.centerx
@@ -27,7 +29,7 @@ class Ship():
         self.rect.centerx = self.center
     def blitme(self):
         """在指定位置绘制飞船"""
-        self.screen.blit(self.images,self.rect)
+        self.screen.blit(self.image,self.rect)
     def center_ship(self):
         """让飞船在屏幕底部中央"""
         self.center = self.screen_rect.centerx
