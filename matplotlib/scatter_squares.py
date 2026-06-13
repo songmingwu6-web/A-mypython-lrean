@@ -8,4 +8,4 @@ plt.xlabel("Value",fontsize = 14)
 plt.ylabel("Square of Value",fontsize = 14)
 #设置刻度标记的大小
 plt.axis([0,1100,0,1100000])#设置每个坐标的取值范围
-plt.show()
+plt.savefig('squares_plot.png',bbox_inches='tight')#保存图表
